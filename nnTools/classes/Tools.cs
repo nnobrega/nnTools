@@ -252,6 +252,88 @@ namespace nnTools
 
             }
         }
+
+        #region Combos
+        public static void SelecionarComboInfo1(ref ComboBox cboCombo, string Valor)
+        {
+            ComboInfo gr = null;
+            for (int i = 0; i < cboCombo.Items.Count; i++)
+            {
+                gr = (ComboInfo)cboCombo.Items[i];
+
+                if (gr.Codigo.Trim().Equals(Valor.Trim()))
+                {
+                    cboCombo.SelectedIndex = i;
+                    break;
+                }
+            }
+            gr = null;
+        }
+
+        public static void SelecionarDescricaoComboInfo(ref ComboBox cboCombo, string Descricao)
+        {
+            ComboInfo gr = null;
+
+            for (int i = 0; i < cboCombo.Items.Count; i++)
+            {
+                gr = (ComboInfo)cboCombo.Items[i];
+
+                if (gr.Descricao.Trim().Equals(Descricao.Trim()))
+                {
+                    cboCombo.SelectedIndex = i;
+                    break;
+                }
+            }
+            gr = null;
+        }
+
+        public static void SelecionarComboInfo1(ref ToolStripComboBox cboCombo, string Valor)
+        {
+            ComboInfo gr = null;
+            for (int i = 0; i < cboCombo.Items.Count; i++)
+            {
+                gr = (ComboInfo)cboCombo.Items[i];
+
+                if (gr.Codigo.Trim().Equals(Valor.Trim()))
+                {
+                    cboCombo.SelectedIndex = i;
+                    break;
+                }
+            }
+            gr = null;
+        }
+
+        public static void SelecionarComboInfo(ref ComboBox cboCombo, string Valor)
+        {
+            ComboInfo2 gr = null;
+            for (int i = 0; i < cboCombo.Items.Count; i++)
+            {
+                gr = (ComboInfo2)cboCombo.Items[i];
+
+                if (gr.Codigo2.Trim().Equals(Valor.Trim()))
+                {
+                    cboCombo.SelectedIndex = i;
+                    break;
+                }
+            }
+            gr = null;
+        }
+        public static void SelecionarComboInfo(ref ToolStripComboBox cboCombo, string Valor)
+        {
+            ComboInfo2 gr = null;
+            for (int i = 0; i < cboCombo.Items.Count; i++)
+            {
+                gr = (ComboInfo2)cboCombo.Items[i];
+
+                if (gr.Codigo1.Trim().Equals(Valor.Trim()))
+                {
+                    cboCombo.SelectedIndex = i;
+                    break;
+                }
+            }
+            gr = null;
+        }
+        #endregion
     }
 
     public class ColunasGridInfo
@@ -357,5 +439,53 @@ namespace nnTools
         Botao,
         CheckBox
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ComboInfo2
+    {
+        public string Codigo1;
+        public string Codigo2;
+        public string Codigo3;
+        public string Descricao;
 
+        public ComboInfo2(string _Codigo1, string _Codigo2, string _Descricao)
+        {
+            Codigo1 = _Codigo1;
+            Codigo2 = _Codigo2;
+            Descricao = _Descricao;
+        }
+
+        public ComboInfo2(string _Codigo1, string _Codigo2, string _Codigo3, string _Descricao)
+        {
+            Codigo1 = _Codigo1;
+            Codigo2 = _Codigo2;
+            Codigo3 = _Codigo3;
+            Descricao = _Descricao;
+        }
+
+        public override string ToString()
+        {
+            return Descricao;
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ComboInfo
+    {
+        public string Codigo;
+        public string Descricao;
+
+        public ComboInfo(string _Codigo, string _Descricao)
+        {
+            Descricao = _Descricao;
+            Codigo = _Codigo;
+        }
+
+        public override string ToString()
+        {
+            return Descricao;
+        }
+    }
 }
