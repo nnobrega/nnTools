@@ -11,11 +11,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows;
 using System.Drawing;
+using System.Runtime.InteropServices;
+using access = Microsoft.Office.Interop.Access.Dao;
+using System.Security.Principal;
 
 namespace nnTools
 {
     public class Tools
     {
+        public WindowsIdentity UsuarioAtivo = WindowsIdentity.GetCurrent();
+
         #region Mensagem
         public static void MensagemStatus(ref ToolStripStatusLabel status)
         {
@@ -96,6 +101,8 @@ namespace nnTools
         //    }
         //}
         #endregion
+
+        #region Trata list e grid
         public static void ConfigurarColunasListView(ref ListView lsvGen, params string[] Colunas)
         {
             ColumnHeader ch = null;
@@ -113,7 +120,6 @@ namespace nnTools
 
             AjustarColunasListView(ref lsvGen);
         }
-
         public static void ConfigurarColunasListView(ref ListView lsvGen, params ColunasListView[] Colunas)
         {
             ColumnHeader ch = null;
@@ -132,7 +138,6 @@ namespace nnTools
                 lsvGen.Columns.Add(ch);
             }
         }
-
         public static void ConfigurarDataGridView(ref DataGridView dgvGen)
         {
             dgvGen.EnableHeadersVisualStyles = false;
@@ -146,7 +151,6 @@ namespace nnTools
             dgvGen.MultiSelect = false;
             dgvGen.SelectionMode = DataGridViewSelectionMode.CellSelect;
         }
-
         public static void ConfigurarColunasDataGridView(ref DataGridView dgvGen, params ColunasGrid[] Colunas)
         {
             DataGridViewColumn dgvc;
@@ -203,7 +207,6 @@ namespace nnTools
             }
             catch { }
         }
-
         public static void FormatarDadosDataGridView(ref DataGridView dgv, DataSet ds)
         {
             int _QtLinhas = ds.Tables[0].Rows.Count;
@@ -229,7 +232,6 @@ namespace nnTools
                 new Exception(ex.Message);
             }
         }
-
         public static void AjustarColunasListView(ref ListView lvwListView)
         {
             for (int c = 0; c < lvwListView.Columns.Count; c++)
@@ -241,7 +243,6 @@ namespace nnTools
                 }
             }
         }
-
         public static void AjustarColunasListViewCompleta(ref ListView lvwListView)
         {
             for (int c = 0; c < lvwListView.Columns.Count; c++)
@@ -252,6 +253,8 @@ namespace nnTools
 
             }
         }
+
+        #endregion
 
         #region Combos
         public static void SelecionarComboInfo1(ref ComboBox cboCombo, string Valor)
@@ -269,7 +272,6 @@ namespace nnTools
             }
             gr = null;
         }
-
         public static void SelecionarDescricaoComboInfo(ref ComboBox cboCombo, string Descricao)
         {
             ComboInfo gr = null;
@@ -286,7 +288,6 @@ namespace nnTools
             }
             gr = null;
         }
-
         public static void SelecionarComboInfo1(ref ToolStripComboBox cboCombo, string Valor)
         {
             ComboInfo gr = null;
@@ -302,7 +303,6 @@ namespace nnTools
             }
             gr = null;
         }
-
         public static void SelecionarComboInfo(ref ComboBox cboCombo, string Valor)
         {
             ComboInfo2 gr = null;
@@ -334,8 +334,23 @@ namespace nnTools
             gr = null;
         }
         #endregion
-    }
 
+        #region Trata BancoDadosAccess
+        public static void CompactAndRepairDatabase(string dataBasePath, string dataBaseName, string dataBasePathBKP, string dataBaseNameBKP)
+        {
+            var dao = new access.DBEngine();
+
+            try
+            {
+                dao.CompactDatabase(dataBasePath + dataBaseName, dataBasePathBKP + dataBaseNameBKP);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+    }
     public class ColunasGridInfo
     {
         private string _Nome;
@@ -439,9 +454,6 @@ namespace nnTools
         Botao,
         CheckBox
     }
-    /// <summary>
-    /// 
-    /// </summary>
     public class ComboInfo2
     {
         public string Codigo1;
@@ -469,20 +481,15 @@ namespace nnTools
             return Descricao;
         }
     }
-    /// <summary>
-    /// 
-    /// </summary>
     public class ComboInfo
     {
         public string Codigo;
         public string Descricao;
-
         public ComboInfo(string _Codigo, string _Descricao)
         {
             Descricao = _Descricao;
             Codigo = _Codigo;
         }
-
         public override string ToString()
         {
             return Descricao;
