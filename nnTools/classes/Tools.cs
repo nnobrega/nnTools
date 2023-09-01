@@ -46,6 +46,10 @@ namespace nnTools
         {
             MessageBox.Show(mensagem, titulo, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+        public static void ExibirMensagemExclamacao(string mensagem, string titulo)
+        {
+            MessageBox.Show(mensagem, titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
         public static void ExibirMensagemErro(string mensagem, string titulo)
         {
             MessageBox.Show(mensagem, titulo, MessageBoxButtons.OK, MessageBoxIcon.Error);
