@@ -198,19 +198,19 @@ namespace nnTools
                 {
                     switch (Coluna.TipoCelula)
                     {
-                        case eTipoCelula.Texto:
+                        case EtipoCelula.Texto:
                             dgvc = new DataGridViewTextBoxColumn();
                             break;
-                        case eTipoCelula.Combo:
+                        case EtipoCelula.Combo:
                             dgvc = new DataGridViewComboBoxColumn();
                             break;
-                        case eTipoCelula.Botao:
+                        case EtipoCelula.Botao:
                             dgvc = new DataGridViewButtonColumn();
                             break;
-                        case eTipoCelula.Imagem:
+                        case EtipoCelula.Imagem:
                             dgvc = new DataGridViewImageColumn();
                             break;
-                        case eTipoCelula.CheckBox:
+                        case EtipoCelula.CheckBox:
                             dgvc = new DataGridViewCheckBoxColumn();
                             break;
                         default:
@@ -492,10 +492,10 @@ namespace nnTools
         private bool _Leitura; public bool Leitura { get { return _Leitura; } set { _Leitura = value; } }
         private bool _Visivel; public bool Visivel { get { return _Visivel; } set { _Visivel = value; } }
 
-        private eTipoCelula _TipoCelula;
-        public eTipoCelula TipoCelula { get { return _TipoCelula; } set { _TipoCelula = value; } }
+        private EtipoCelula _TipoCelula;
+        public EtipoCelula TipoCelula { get { return _TipoCelula; } set { _TipoCelula = value; } }
 
-        public ColunasGrid(string pNome, string pCabecalho, bool pLeitura, bool pVisivel, eTipoCelula pTipoCelula = eTipoCelula.Texto,
+        public ColunasGrid(string pNome, string pCabecalho, bool pLeitura, bool pVisivel, EtipoCelula pTipoCelula = EtipoCelula.Texto,
                            DataGridViewContentAlignment pAlinhamento = DataGridViewContentAlignment.MiddleLeft,
                            DataGridViewAutoSizeColumnMode pAutoSize = DataGridViewAutoSizeColumnMode.AllCells,
                            DataGridViewColumnSortMode pClassificacao = DataGridViewColumnSortMode.NotSortable)
@@ -510,13 +510,18 @@ namespace nnTools
             TipoCelula = pTipoCelula;
         }
     }
-    public enum eTipoCelula
+    public enum EtipoCelula
     {
         Imagem,
         Texto,
         Combo,
         Botao,
         CheckBox
+    }
+    public enum Emodo
+    {
+        Previsto,
+        Efetivo
     }
     public class ComboInfo2
     {
