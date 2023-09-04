@@ -2032,35 +2032,6 @@
 //        }
 //        #endregion
 
-//        #region ... Teclas ...
-//        public static bool TeclaEnter(KeyPressEventArgs e)
-//        {
-//            return ((Keys)e.KeyChar == Keys.Enter);
-//        }
-
-//        public static bool TeclaDel(KeyPressEventArgs e)
-//        {
-//            return ((Keys)e.KeyChar == Keys.Delete);
-//        }
-
-//        public static bool TeclaEscape(KeyPressEventArgs e)
-//        {
-//            return ((Keys)e.KeyChar == Keys.Escape);
-//        }
-
-//        public static bool TeclaBKSpace(KeyPressEventArgs e)
-//        {
-//            return ((Keys)e.KeyChar == Keys.Back);
-//        }
-
-//        public static bool TeclaSetas(KeyEventArgs e)
-//        {
-//            return (e.KeyCode == Keys.Up ||
-//                    e.KeyCode == Keys.Down ||
-//                    e.KeyCode == Keys.Left ||
-//                    e.KeyCode == Keys.Right);
-//        }
-//        #endregion
 
 //        #region ... Strings ...
 
@@ -3245,20 +3216,7 @@
 //            return "";
 //        }
 
-//        public static string strReverse(string Valor)
-//        {
-//            if (Valor.Trim() == "") return "";
 
-//            char[] chrAux = Valor.ToCharArray();
-//            string strAux = "";
-
-//            for (int i = chrAux.Length - 1; i > -1; i--)
-//            {
-//                strAux += chrAux[i];
-//            }
-
-//            return strAux;
-//        }
 
 //        public static string ObterValorListView(ListView lvw, ListViewItemSelectionChangedEventArgs e, string NomeCampo)
 //        {

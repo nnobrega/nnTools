@@ -20,6 +20,24 @@ namespace nnTools
     public class Tools
     {
         public WindowsIdentity UsuarioAtivo = WindowsIdentity.GetCurrent();
+        public static ToolStripStatusLabel stsBar;
+
+        #region Tratamento Strings
+        public static string strReverse(string Valor)
+        {
+            if (Valor.Trim() == "") return "";
+
+            char[] chrAux = Valor.ToCharArray();
+            string strAux = "";
+
+            for (int i = chrAux.Length - 1; i > -1; i--)
+            {
+                strAux += chrAux[i];
+            }
+
+            return strAux;
+        }
+        #endregion
 
         #region Mensagem
         public static void MensagemStatus(ref ToolStripStatusLabel status)
@@ -42,6 +60,15 @@ namespace nnTools
 
             System.Windows.Forms.Application.DoEvents();
         }
+        public static void MensagemStatus()
+        {
+            MensagemStatus(ref stsBar, "");
+        }
+        public static void MensagemStatus(string mensagem)
+        {
+            MensagemStatus(ref stsBar, mensagem);
+        }
+
         public static void ExibirMensagemAlerta(string mensagem, string titulo)
         {
             MessageBox.Show(mensagem, titulo, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -336,6 +363,39 @@ namespace nnTools
                 }
             }
             gr = null;
+        }
+        #endregion
+
+        #region ... Teclas ...
+        public static bool TeclaEnter(KeyPressEventArgs e)
+        {
+            return ((Keys)e.KeyChar == Keys.Enter);
+        }
+
+        public static bool TeclaDel(KeyPressEventArgs e)
+        {
+            return ((Keys)e.KeyChar == Keys.Delete);
+        }
+        public static bool TeclaDel(KeyEventArgs e)
+        {
+            return ((Keys)e.KeyData  == Keys.Delete);
+        }
+        public static bool TeclaEscape(KeyPressEventArgs e)
+        {
+            return ((Keys)e.KeyChar == Keys.Escape);
+        }
+
+        public static bool TeclaBKSpace(KeyPressEventArgs e)
+        {
+            return ((Keys)e.KeyChar == Keys.Back);
+        }
+
+        public static bool TeclaSetas(KeyEventArgs e)
+        {
+            return (e.KeyCode == Keys.Up ||
+                    e.KeyCode == Keys.Down ||
+                    e.KeyCode == Keys.Left ||
+                    e.KeyCode == Keys.Right);
         }
         #endregion
 
