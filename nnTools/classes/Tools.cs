@@ -518,7 +518,7 @@ namespace nnTools
         Botao,
         CheckBox
     }
-    public enum Emodo
+    public enum EtipoMovimento
     {
         Previsto,
         Efetivo
