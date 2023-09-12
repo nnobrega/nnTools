@@ -37,6 +37,11 @@ namespace nnTools
 
             return strAux;
         }
+
+        public static string TipoMovimento(EtipoMovimento Tipo)
+        {
+            return (Tipo == EtipoMovimento.Previsto ? "P" : "E");
+        }
         #endregion
 
         #region Mensagem
@@ -57,6 +62,8 @@ namespace nnTools
                 status.GetCurrentParent().Parent.Cursor = Cursors.WaitCursor;
                 status.Text = mensagem + "...";
             }
+
+            status.ForeColor = Color.Black;
 
             System.Windows.Forms.Application.DoEvents();
         }
@@ -520,8 +527,8 @@ namespace nnTools
     }
     public enum EtipoMovimento
     {
-        Previsto,
-        Efetivo
+        Previsto = -1,
+        Efetivo = 0
     }
     public class ComboInfo2
     {
