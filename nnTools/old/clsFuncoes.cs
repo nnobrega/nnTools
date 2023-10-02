@@ -4149,65 +4149,7 @@
 //                return cControl.Text;
 //        }
 
-//        public static string Mid(string Texto, int Start, int End)
-//        {
-//            if (Texto.Trim().Equals(string.Empty))
-//                return string.Empty;
-//            else
-//            {
-//                if (Texto.Length >= End)
-//                    return Texto.Substring(Start - 1, End);
-//                else
-//                    return Texto;
 
-//            }
-//        }
-
-//        public static string Mid(string Texto, int Start)
-//        {
-//            if (Texto.Trim().Equals(string.Empty))
-//                return string.Empty;
-//            else
-//                if (Texto.Length < Start)
-//                return Texto.PadRight(Start).Substring(Start - 1);
-//            else
-//                return Texto.Substring(Start - 1);
-//        }
-
-//        public static string Right(string Texto, int Tamanho)
-//        {
-//            if (Texto.Trim().Equals(string.Empty))
-//                return string.Empty;
-//            else
-//                if (Texto.Length < Tamanho)
-//                return Texto;
-//            else
-//                return Texto.Substring(Texto.Length - Tamanho);
-//        }
-
-//        public static string Left(string Texto, int Fim)
-//        {
-//            if (Texto.Trim().Equals(string.Empty))
-//                return string.Empty;
-//            else
-//                if (Texto.Length < Fim)
-//                return Texto;
-//            else
-//                return Texto.Substring(0, Fim);
-//        }
-
-//        public static string Trim(string Texto)
-//        {
-//            if (Texto != null) return Texto.Trim();
-
-//            return "";
-
-//        }
-
-//        public static string UCase(string Texto)
-//        {
-//            return Texto.Trim().ToUpper();
-//        }
 
 //        public static string ObterBaseVeiculo(string QualAmbiente)
 //        {
@@ -9322,27 +9264,7 @@
 
 //        }
 
-//        public static string UFLimitarString(string pString, int pTamanho, string pPreencher = " ")
-//        {
-//            if (pPreencher == "")
-//            {
-//                pPreencher = " ";
-//            }
 
-//            if (pString.Length == pTamanho)
-//            {
-//                return pString;
-//            }
-//            if (pString.Length > pTamanho)
-//            {
-//                return pString.Substring(0, pTamanho);
-//            }
-
-//            pString = pString + pPreencher.PadLeft(pTamanho, Convert.ToChar(pPreencher));
-
-//            return pString.Substring(0, pTamanho);
-
-//        }
 
 //        public static int UFPesquisarValortsCombo(ToolStripComboBox tsCombo, string Texto)
 //        {

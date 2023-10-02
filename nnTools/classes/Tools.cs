@@ -42,6 +42,246 @@ namespace nnTools
         {
             return (Tipo == EtipoMovimento.Previsto ? "P" : "E");
         }
+
+        public static string LimitarString(string pString, int pTamanho, string pPreencher = " ")
+        {
+            if (pPreencher == "")
+            {
+                pPreencher = " ";
+            }
+
+            if (pString.Length == pTamanho)
+            {
+                return pString;
+            }
+            if (pString.Length > pTamanho)
+            {
+                return pString.Substring(0, pTamanho);
+            }
+
+            pString = pString + pPreencher.PadLeft(pTamanho, Convert.ToChar(pPreencher));
+
+            return pString.Substring(0, pTamanho);
+
+        }
+        public static string Mid(string Texto, int Start, int End)
+        {
+            if (Texto.Trim().Equals(string.Empty))
+                return string.Empty;
+            else
+            {
+                if (Texto.Length >= End)
+                    return Texto.Substring(Start - 1, End);
+                else
+                    return Texto;
+
+            }
+        }
+
+        public static string Mid(string Texto, int Start)
+        {
+            if (Texto.Trim().Equals(string.Empty))
+                return string.Empty;
+            else
+                if (Texto.Length < Start)
+                return Texto.PadRight(Start).Substring(Start - 1);
+            else
+                return Texto.Substring(Start - 1);
+        }
+
+        public static string Right(string Texto, int Tamanho)
+        {
+            if (Texto.Trim().Equals(string.Empty))
+                return string.Empty;
+            else
+                if (Texto.Length < Tamanho)
+                return Texto;
+            else
+                return Texto.Substring(Texto.Length - Tamanho);
+        }
+
+        public static string Left(string Texto, int Fim)
+        {
+            if (Texto.Trim().Equals(string.Empty))
+                return string.Empty;
+            else
+                if (Texto.Length < Fim)
+                return Texto;
+            else
+                return Texto.Substring(0, Fim);
+        }
+
+        public static string Trim(string Texto)
+        {
+            if (Texto != null) return Texto.Trim();
+
+            return "";
+
+        }
+
+        public static string UCase(string Texto)
+        {
+            return Texto.Trim().ToUpper();
+        }
+
+        public static void UFCampoTexto(ref object sender, ref KeyPressEventArgs e, int Tamanho)
+        {
+            Encoding ascii = Encoding.ASCII;
+            Encoding unicode = Encoding.Unicode;
+            int iTamanhoTexto = 0;
+            int iTamanhoSelTexto = 0;
+            byte[] unicodeBytes;
+            byte[] asciiBytes;
+
+            if ((Keys)e.KeyChar == Keys.Return) return;
+            if ((Keys)e.KeyChar == Keys.Back) return;
+            if ((Keys)e.KeyChar == Keys.Delete) return;
+
+            if (sender.GetType() == typeof(TextBox))
+            {
+                TextBox txt = sender as TextBox;
+                iTamanhoTexto = txt.Text.Length;
+                iTamanhoSelTexto = txt.SelectedText.Length;
+            }
+            if (sender.GetType() == typeof(ComboBox))
+            {
+                ComboBox cbo = sender as ComboBox;
+                iTamanhoTexto = cbo.Text.Length;
+                iTamanhoSelTexto = cbo.SelectedText.Length;
+            }
+
+            if (iTamanhoTexto < Tamanho || iTamanhoSelTexto > 0)
+            {
+                unicodeBytes = unicode.GetBytes(e.KeyChar.ToString().ToUpper());
+                asciiBytes = Encoding.Convert(unicode, ascii, unicodeBytes);
+                e.KeyChar = (char)asciiBytes[0];
+                return;
+            }
+
+            e.Handled = true;
+
+        }
+
+        #endregion
+
+        #region Trata Campos Numericos
+        public static string FormataNumeroString(string Numero, int QtInteiros)
+        {
+            return FormataNumeroString(Numero, QtInteiros, 0);
+        }
+
+        public static string FormataNumeroString(string Numero, int QtInteiros, int QtDecimais)
+        {
+            string strFormatado = "0";
+            string strFornmato = "";
+            string strFator = "1";
+            double dblAux = 0;
+
+            strFator = strFator.PadRight(QtDecimais + 1, '0');
+
+            if (UFEhNumerico(Numero.Replace(",", "")))
+            {
+                if (QtDecimais > 0)
+                {
+                    if (Numero.Contains(','))
+                    {
+                        dblAux = Convert.ToInt64(Numero.Replace(",", ""));
+                    }
+                    else
+                    {
+                        dblAux = Convert.ToInt64(Numero) * Convert.ToInt64(strFator);
+                    }
+                }
+                else
+                {
+                    dblAux = Convert.ToInt64(Numero);
+                }
+            }
+            else
+            {
+                dblAux = 0;
+            }
+
+            dblAux = dblAux / Convert.ToInt64(strFator);
+            strFornmato = "";
+
+            if (QtDecimais > 0)
+            {
+                strFornmato += ("0").PadRight((QtInteiros - QtDecimais), '0') + ".";
+                strFornmato += ("0").PadRight(QtDecimais, '0');
+            }
+            else
+            {
+                strFornmato = strFornmato.PadRight(QtInteiros, '0');
+            }
+
+            strFormatado = dblAux.ToString(strFornmato);
+            strFormatado = strFormatado.Replace(",", "");
+
+            return strFormatado;
+        }
+
+        public static string FormataNumeroDecimal(string Numero, int CasaDecimal)
+        {
+            string FormataNumeroDecimal = "";
+            string strAux = "";
+
+            strAux = Right(Numero, CasaDecimal);
+            Numero = Mid(Numero, 1, Numero.Length - CasaDecimal);
+
+            FormataNumeroDecimal = Numero + "," + strAux;
+
+            return FormataNumeroDecimal;
+        }
+        public static bool UFEhNumerico(string Valor)
+        {
+            Int32 iNumero;
+            return Int32.TryParse(Valor, out iNumero);
+
+        }
+        public static void UFLimitarNumeros(ref object sender, ref KeyPressEventArgs e, int Tam)
+        {
+            UFCampoTexto(ref sender, ref e, Tam);
+            DigitarSomenteNumeros(ref e);
+        }
+        public static void DigitarSomenteNumeros(ref KeyPressEventArgs e, bool AceitaVirgula)
+        {
+            switch (e.KeyChar)
+            {
+                case (char)3:  //Ctrl+C
+                case (char)22: //Ctrl+V
+                case (char)24: //Ctrl+X
+                case (char)26: //Ctrl+Z
+                case (char)1:  //Ctrl+A
+                case (char)8:  //Backspace
+                case (char)45:  //Menos
+                case (char)43:  //Mais
+                    return;
+                default:
+                    if (e.KeyChar == 44 && AceitaVirgula) return;
+                    if (!char.IsDigit(e.KeyChar)) e.Handled = true;
+                    break;
+            }
+        }
+
+        public static void DigitarSomenteNumeros(ref KeyPressEventArgs e)
+        {
+            switch (e.KeyChar)
+            {
+                case (char)3:  //Ctrl+C
+                case (char)22: //Ctrl+V
+                case (char)24: //Ctrl+X
+                case (char)26: //Ctrl+Z
+                case (char)1:  //Ctrl+A
+                case (char)8:  //Backspace
+                case (char)45:  //Menos
+                case (char)43:  //Mais
+                    return;
+                default:
+                    if (!char.IsDigit(e.KeyChar)) e.Handled = true;
+                    break;
+            }
+        }
         #endregion
 
         #region Mensagem
@@ -63,6 +303,7 @@ namespace nnTools
                 status.Text = mensagem + "...";
             }
 
+            status.Invalidate();
             status.ForeColor = Color.Black;
 
             System.Windows.Forms.Application.DoEvents();
@@ -291,12 +532,36 @@ namespace nnTools
 
             }
         }
-
-        #endregion
-
-        #region Combos
-        public static void SelecionarComboInfo1(ref ComboBox cboCombo, string Valor)
+        public static ListViewItem ConfigurarSubitems(ref ListView lsvGen, string TextoItem)
         {
+            ListViewItem _item = lsvGen.Items.Add(TextoItem);
+            bool _primeiraVez = true;
+
+            foreach (ColumnHeader _coluna in lsvGen.Columns)
+            {
+                if (_primeiraVez)
+                {
+                    _primeiraVez = false;
+                }
+                else
+                {
+                    _item.SubItems.Add(new ListViewItem.ListViewSubItem { Text = "", Name = _coluna.Name });
+                }
+            }
+
+            return _item;
+        }
+        #endregion
+        
+        #region Combos
+        public static void SelecionarComboInfo(ref ComboBox cboCombo, string Valor)
+        {
+            if (Valor == null)
+            {
+                cboCombo.SelectedIndex = 0;
+                return;
+            }
+
             ComboInfo gr = null;
             for (int i = 0; i < cboCombo.Items.Count; i++)
             {
@@ -326,22 +591,7 @@ namespace nnTools
             }
             gr = null;
         }
-        public static void SelecionarComboInfo1(ref ToolStripComboBox cboCombo, string Valor)
-        {
-            ComboInfo gr = null;
-            for (int i = 0; i < cboCombo.Items.Count; i++)
-            {
-                gr = (ComboInfo)cboCombo.Items[i];
-
-                if (gr.Codigo.Trim().Equals(Valor.Trim()))
-                {
-                    cboCombo.SelectedIndex = i;
-                    break;
-                }
-            }
-            gr = null;
-        }
-        public static void SelecionarComboInfo(ref ComboBox cboCombo, string Valor)
+        public static void SelecionarComboInfo2(ref ComboBox cboCombo, string Valor)
         {
             ComboInfo2 gr = null;
             for (int i = 0; i < cboCombo.Items.Count; i++)
@@ -356,7 +606,22 @@ namespace nnTools
             }
             gr = null;
         }
-        public static void SelecionarComboInfo(ref ToolStripComboBox cboCombo, string Valor)
+        public static void SelecionarComboInfoTSC(ref ToolStripComboBox cboCombo, string Valor)
+        {
+            ComboInfo gr = null;
+            for (int i = 0; i < cboCombo.Items.Count; i++)
+            {
+                gr = (ComboInfo)cboCombo.Items[i];
+
+                if (gr.Codigo.Trim().Equals(Valor.Trim()))
+                {
+                    cboCombo.SelectedIndex = i;
+                    break;
+                }
+            }
+            gr = null;
+        }
+        public static void SelecionarComboInfo2TSC(ref ToolStripComboBox cboCombo, string Valor)
         {
             ComboInfo2 gr = null;
             for (int i = 0; i < cboCombo.Items.Count; i++)
@@ -385,7 +650,7 @@ namespace nnTools
         }
         public static bool TeclaDel(KeyEventArgs e)
         {
-            return ((Keys)e.KeyData  == Keys.Delete);
+            return ((Keys)e.KeyData == Keys.Delete);
         }
         public static bool TeclaEscape(KeyPressEventArgs e)
         {
