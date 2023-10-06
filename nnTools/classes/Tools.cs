@@ -40,7 +40,14 @@ namespace nnTools
 
         public static string TipoMovimento(EtipoMovimento Tipo)
         {
-            return (Tipo == EtipoMovimento.Previsto ? "P" : "E");
+            return TipoMovimento(Tipo, false);
+        }
+        public static string TipoMovimento(EtipoMovimento Tipo, bool Descricao)
+        {
+            if (Descricao)
+                return (Tipo == EtipoMovimento.Previsto ? "Previsto" : "Efetivo");
+            else
+                return (Tipo == EtipoMovimento.Previsto ? "P" : "E");
         }
 
         public static string LimitarString(string pString, int pTamanho, string pPreencher = " ")
@@ -552,7 +559,7 @@ namespace nnTools
             return _item;
         }
         #endregion
-        
+
         #region Combos
         public static void SelecionarComboInfo(ref ComboBox cboCombo, string Valor)
         {
