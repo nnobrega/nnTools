@@ -1989,7 +1989,7 @@
 //            }
 //            catch (Exception)
 //            {
-//                return DateTime.MinValue;
+//                return Tools.DataMinima;
 //            }
 //        }
 

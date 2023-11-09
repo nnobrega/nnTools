@@ -15,12 +15,14 @@ using System.Runtime.InteropServices;
 using access = Microsoft.Office.Interop.Access.Dao;
 using System.Security.Principal;
 
-namespace nnTools
+namespace nnTools.classes
 {
     public class Tools
     {
         public WindowsIdentity UsuarioAtivo = WindowsIdentity.GetCurrent();
         public static ToolStripStatusLabel stsBar;
+        public static bool CancelarProcessamento = false;
+        public static readonly DateTime DataMinima = new DateTime(2001, 01, 01);
 
         #region Tratamento Strings
         public static string strReverse(string Valor)
