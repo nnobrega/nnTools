@@ -695,6 +695,15 @@ namespace nnTools.classes
             }
         }
         #endregion
+
+        #region Tratamento Forms
+        public static void AbrirFormFilho(Form formPai, Form formFilho)
+        {
+            formFilho.MdiParent = formPai;  // Define o formPai como o MdiParent do formFilho
+            formFilho.Show();               // Exibe o formulário filho
+            formFilho.WindowState = FormWindowState.Maximized;  // Opcional: abre o formulário maximizado
+        }
+        #endregion
     }
     public class ColunasGridInfo
     {
