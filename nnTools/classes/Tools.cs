@@ -14,6 +14,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using access = Microsoft.Office.Interop.Access.Dao;
 using System.Security.Principal;
+using System.Text.RegularExpressions;
 
 namespace nnTools.classes
 {
@@ -39,7 +40,6 @@ namespace nnTools.classes
 
             return strAux;
         }
-
         public static string TipoMovimento(EtipoMovimento Tipo)
         {
             return TipoMovimento(Tipo, false);
@@ -51,7 +51,6 @@ namespace nnTools.classes
             else
                 return (Tipo == EtipoMovimento.Previsto ? "P" : "E");
         }
-
         public static string LimitarString(string pString, int pTamanho, string pPreencher = " ")
         {
             if (pPreencher == "")
@@ -86,7 +85,6 @@ namespace nnTools.classes
 
             }
         }
-
         public static string Mid(string Texto, int Start)
         {
             if (Texto.Trim().Equals(string.Empty))
@@ -97,7 +95,6 @@ namespace nnTools.classes
             else
                 return Texto.Substring(Start - 1);
         }
-
         public static string Right(string Texto, int Tamanho)
         {
             if (Texto.Trim().Equals(string.Empty))
@@ -108,7 +105,6 @@ namespace nnTools.classes
             else
                 return Texto.Substring(Texto.Length - Tamanho);
         }
-
         public static string Left(string Texto, int Fim)
         {
             if (Texto.Trim().Equals(string.Empty))
@@ -119,7 +115,6 @@ namespace nnTools.classes
             else
                 return Texto.Substring(0, Fim);
         }
-
         public static string Trim(string Texto)
         {
             if (Texto != null) return Texto.Trim();
@@ -127,12 +122,10 @@ namespace nnTools.classes
             return "";
 
         }
-
         public static string UCase(string Texto)
         {
             return Texto.Trim().ToUpper();
         }
-
         public static void UFCampoTexto(ref object sender, ref KeyPressEventArgs e, int Tamanho)
         {
             Encoding ascii = Encoding.ASCII;
@@ -169,6 +162,35 @@ namespace nnTools.classes
 
             e.Handled = true;
 
+        }
+        public static string ExtrairConteudo(string texto, string delimitador1, string delimitador2, StringComparison metodo, bool noIntervalo = false)
+        {
+            int pos1 = texto.IndexOf(delimitador1, 0, metodo);
+
+            // Se não encontrar o primeiro delimitador, retorne uma string vazia
+            if (pos1 == -1)
+                return string.Empty;
+
+            int pos2;
+            if (delimitador1 == delimitador2 || noIntervalo)
+            {
+                pos2 = texto.LastIndexOf(delimitador2, metodo);
+            }
+            else
+            {
+                pos2 = texto.IndexOf(delimitador2, pos1 + delimitador1.Length, metodo);
+            }
+
+            // Se não encontrar o segundo delimitador ou a posição do segundo delimitador for inválida
+            if (pos2 == -1 || pos2 <= pos1)
+            {
+                pos2 = texto.IndexOf(';', pos1 + delimitador1.Length);
+                if (pos2 == -1 || pos2 <= pos1)
+                    return string.Empty;
+            }
+
+            // Extrai o conteúdo entre os delimitadores, excluindo os delimitadores
+            return texto.Substring(pos1 + delimitador1.Length, pos2 - (pos1 + delimitador1.Length));
         }
 
         #endregion
@@ -702,6 +724,52 @@ namespace nnTools.classes
             formFilho.MdiParent = formPai;  // Define o formPai como o MdiParent do formFilho
             formFilho.Show();               // Exibe o formulário filho
             formFilho.WindowState = FormWindowState.Maximized;  // Opcional: abre o formulário maximizado
+        }
+        #endregion
+
+        #region Tratamento para Data e Horas
+        public static double ConvertToHours(string ValorString)
+        {
+            double months = 0;
+            double weeks = 0;
+            double days = 0;
+            double hours = 0;
+
+            // Regex para meses
+            var regex = new Regex(@"(\d+)\s*mo");
+            var match = regex.Match(ValorString);
+            if (match.Success)
+            {
+                months = Convert.ToDouble(match.Groups[1].Value);
+            }
+
+            // Regex para semanas
+            regex = new Regex(@"(\d+)\s*w");
+            match = regex.Match(ValorString);
+            if (match.Success)
+            {
+                weeks = Convert.ToDouble(match.Groups[1].Value);
+            }
+
+            // Regex para dias
+            regex = new Regex(@"(\d+)\s*d");
+            match = regex.Match(ValorString);
+            if (match.Success)
+            {
+                days = Convert.ToDouble(match.Groups[1].Value);
+            }
+
+            // Regex para horas
+            regex = new Regex(@"(\d+)\s*h");
+            match = regex.Match(ValorString);
+            if (match.Success)
+            {
+                hours = Convert.ToDouble(match.Groups[1].Value);
+            }
+
+            // Converte tudo para horas, considerando 1 mês = 160 horas, 1 semana = 5 dias, 1 dia = 8 horas
+            return (months * 160) + (weeks * 5 * 8) + (days * 8) + hours;
+
         }
         #endregion
     }
